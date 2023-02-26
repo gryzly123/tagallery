@@ -2,16 +2,23 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace tagallery
 {
+	class Gallery;
+
 	class Engine
 	{
 	public:
-		Engine( std::string path );
+		Engine();
 		~Engine();
 
-	private:
 
+		std::weak_ptr< Gallery > OpenGallery( std::string path );
+		bool CloseGallery(std::weak_ptr<Gallery> gallery);
+
+	private:
+		std::vector<std::shared_ptr< Gallery >> m_galleries;
 	};
 }

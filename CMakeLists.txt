@@ -1,4 +1,14 @@
 cmake_minimum_required( VERSION 3.21 )
 project( tagallery LANGUAGES CXX )
+set_property( GLOBAL PROPERTY USE_FOLDERS ON )
+
+set( wxUSE_STL ON )
+#set( wxUSE_GUI ON )
+set( wxBUILD_SHARED OFF )
+set( wxBUILD_DEMOS OFF )
+set( wxBUILD_PRECOMP OFF )
+set( wxBUILD_TESTS "OFF" )
+set( wxBUILD_SAMPLES "OFF" )
+add_subdirectory( contrib/wx )
+
 add_subdirectory( src )
-add_subdirectory( src/engine )
