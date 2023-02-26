@@ -1,9 +1,10 @@
 #include "GalleryWindow.hpp"
 
-#include "wx/htmllbox.h"
+#include "wx/listctrl.h"
 #include "wx/grid.h"
 #include "wx/sizer.h"
 #include "wx/splitter.h"
+#include "wx/artprov.h"
 
 GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 	: wxWindow(parent, id)
@@ -14,9 +15,25 @@ GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 	m_searchBar = new wxTextCtrl(this, wxID_ANY);
 	vbox->Add(m_searchBar, 0, wxEXPAND | wxALL, 5);
 
-	m_tagList = new wxSimpleHtmlListBox(hbox, wxID_ANY);
-	std::vector<wxString> tags( (size_t)200, "<b>Tag name</b> <i>123</i>" );
-	m_tagList->Append(tags);
+	wxImageList* imageList = new wxImageList(16, 16);
+	//wxArtClient* client = wxArtProvider::GetArtClient(wxART_LIST);
+	//wxArtProvider::Push(client);
+	wxBitmap bitmap = wxArtProvider::GetBitmap(wxART_FOLDER, wxART_LIST);
+	imageList->Add(bitmap);
+	bitmap = wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_LIST);
+	imageList->Add(bitmap);
+	wxArtProvider::Pop();
+
+	m_tagList = new wxListCtrl(hbox, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_SMALL_ICON | wxLC_SINGLE_SEL);
+	m_tagList->SetImageList(imageList, wxIMAGE_LIST_SMALL);
+	for (size_t i = 0; i < 100; ++i)
+	{
+		wxListItem item;
+		item.SetId(i);
+		item.SetImage(i%2);
+		item.SetText("Tag name (123)");
+		m_tagList->InsertItem(item);
+	}
 
 	m_thumbs = new wxGrid(hbox, wxID_ANY);
 	m_thumbs->CreateGrid(5, 5);

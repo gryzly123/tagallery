@@ -6,4 +6,4 @@ add_subdirectory( ui )
 add_subdirectory( engine )
 
 # Link
-target_link_libraries( tagallery PRIVATE tagallery_engine wx::core wx::base wx::aui wx::html )
+target_link_libraries( tagallery PRIVATE tagallery_engine wx::core wx::base wx::aui )

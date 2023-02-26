@@ -3,7 +3,7 @@
 #include "TagListView.hpp"
 
 class wxTextCtrl;
-class wxSimpleHtmlListBox;
+class wxListCtrl;
 class wxGrid;
 
 class GalleryWindow : public wxWindow
@@ -13,6 +13,6 @@ public:
 
 private:
 	wxTextCtrl* m_searchBar;
-	wxSimpleHtmlListBox* m_tagList;
+	wxListCtrl* m_tagList;
 	wxGrid* m_thumbs;
 };
