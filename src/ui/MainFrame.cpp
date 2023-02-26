@@ -16,12 +16,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	m_frameMgr.SetManagedWindow(this);
 	BuildMenuBar();
 
-	m_vbox = new wxBoxSizer(wxVERTICAL);
-	SetSizer(m_vbox);
-
-
-	//m_tabs = new wxAuiNotebook( this, -1, wxDefaultPosition, wxDefaultSize );
-	//m_tabs->DragAcceptFiles(true);
+	m_tabs = new wxAuiNotebook( this, -1, wxDefaultPosition, wxDefaultSize );
+	m_tabs->DragAcceptFiles(true);
 }
 
 void MainFrame::OnExit(wxCommandEvent& event)
@@ -36,17 +32,7 @@ void MainFrame::OnOpenGallery(wxCommandEvent & event)
 	++pageId;
 
 	auto* gallery = new GalleryWindow(this);
-	m_vbox->Add(gallery, 1, wxEXPAND | wxALL, 5);
-	Layout();
-
-	//auto* vbox = new wxBoxSizer(wxVERTICAL);
-	//auto* gallery = new GalleryWindow(this);
-	//vbox->Add(gallery, 1, wxEXPAND | wxALL, 5);
-	//SetSizer(vbox);
-
-	//m_tabs->AddPage(new wxWindow, wxString::Format(wxT("Tab #%i"), pageId ), true);
-	//auto* page = m_tabs->GetPage(pageId);
-	//auto* window = new GalleryWindow(page);
+	m_tabs->AddPage(gallery, wxString::Format(wxT("Tab #%i"), pageId ), true);
 }
 
 void MainFrame::OnCloseGallery(wxCommandEvent & event)

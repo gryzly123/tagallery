@@ -19,10 +19,8 @@ private:
 
 	void BuildMenuBar();
 
-	wxAuiNotebook* m_tabs;
-
 	wxAuiManager m_frameMgr;
-	wxBoxSizer* m_vbox;
+	wxAuiNotebook* m_tabs;
 };
 
 enum

@@ -16,13 +16,10 @@ GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 	vbox->Add(m_searchBar, 0, wxEXPAND | wxALL, 5);
 
 	wxImageList* imageList = new wxImageList(16, 16);
-	//wxArtClient* client = wxArtProvider::GetArtClient(wxART_LIST);
-	//wxArtProvider::Push(client);
 	wxBitmap bitmap = wxArtProvider::GetBitmap(wxART_FOLDER, wxART_LIST);
 	imageList->Add(bitmap);
 	bitmap = wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_LIST);
 	imageList->Add(bitmap);
-	wxArtProvider::Pop();
 
 	m_tagList = new wxListCtrl(hbox, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_SMALL_ICON | wxLC_SINGLE_SEL);
 	m_tagList->SetImageList(imageList, wxIMAGE_LIST_SMALL);
