@@ -5,6 +5,7 @@
 #include "wx/sizer.h"
 #include "wx/splitter.h"
 #include "wx/artprov.h"
+#include "wx/dir.h"
 
 GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 	: wxWindow(parent, id)
@@ -15,14 +16,14 @@ GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 	m_searchBar = new wxTextCtrl(this, wxID_ANY);
 	vbox->Add(m_searchBar, 0, wxEXPAND | wxALL, 5);
 
-	wxImageList* imageList = new wxImageList(16, 16);
+	wxImageList* iconList = new wxImageList(16, 16);
 	wxBitmap bitmap = wxArtProvider::GetBitmap(wxART_FOLDER, wxART_LIST);
-	imageList->Add(bitmap);
+	iconList->Add(bitmap);
 	bitmap = wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_LIST);
-	imageList->Add(bitmap);
+	iconList->Add(bitmap);
 
 	m_tagList = new wxListCtrl(hbox, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_SMALL_ICON | wxLC_SINGLE_SEL);
-	m_tagList->SetImageList(imageList, wxIMAGE_LIST_SMALL);
+	m_tagList->SetImageList(iconList, wxIMAGE_LIST_SMALL);
 	for (size_t i = 0; i < 100; ++i)
 	{
 		wxListItem item;
@@ -32,8 +33,41 @@ GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 		m_tagList->InsertItem(item);
 	}
 
-	m_thumbs = new wxGrid(hbox, wxID_ANY);
-	m_thumbs->CreateGrid(5, 5);
+	m_thumbs = new wxListCtrl(hbox, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_ICON);
+	wxImageList* imageList2 = new wxImageList(64, 64);
+	wxString dirPath = wxT("memes");
+	wxDir dir(dirPath);
+	if (dir.IsOpened())
+	{
+		wxString fileName;
+		bool cont = dir.GetFirst(&fileName, wxEmptyString, wxDIR_FILES);
+		while (cont)
+		{
+			wxImage image(dirPath + wxT("/") + fileName);
+			wxBitmap bitmap(image.Scale(64, 64));
+			imageList2->Add(bitmap);
+			cont = dir.GetNext(&fileName);
+		}
+	}
+
+	m_thumbs->AssignImageList(imageList2, wxIMAGE_LIST_NORMAL);
+
+	wxString fileName;
+	bool cont = dir.GetFirst(&fileName, wxEmptyString, wxDIR_FILES);
+	int index = 0;
+	while (cont)
+	{
+		wxListItem listItem;
+		listItem.SetId(index);
+		listItem.SetColumn(0);
+		listItem.SetMask(wxLIST_MASK_TEXT | wxLIST_MASK_IMAGE | wxLIST_MASK_DATA);
+		listItem.SetText(fileName);
+		listItem.SetImage(index);
+		listItem.SetData(index);
+		m_thumbs->InsertItem(listItem);
+		index++;
+		cont = dir.GetNext(&fileName);
+	}
 
 	hbox->SplitVertically(m_tagList, m_thumbs, 200);
 	vbox->Add(hbox, 2, wxEXPAND | wxALL, 5);

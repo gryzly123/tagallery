@@ -14,5 +14,5 @@ public:
 private:
 	wxTextCtrl* m_searchBar;
 	wxListCtrl* m_tagList;
-	wxGrid* m_thumbs;
+	wxListCtrl* m_thumbs;
 };
