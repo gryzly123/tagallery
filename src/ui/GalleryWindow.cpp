@@ -33,8 +33,9 @@ GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 		m_tagList->InsertItem(item);
 	}
 
+	constexpr double thumbResolution = 128.0;
 	m_thumbs = new wxListCtrl(hbox, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_ICON);
-	wxImageList* imageList2 = new wxImageList(128, 128);
+	wxImageList* imageList2 = new wxImageList(thumbResolution, thumbResolution);
 	wxString dirPath = wxT("memes");
 	wxDir dir(dirPath);
 	if (dir.IsOpened())
@@ -44,7 +45,13 @@ GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 		while (cont)
 		{
 			wxImage image(dirPath + wxT("/") + fileName);
-			wxBitmap bitmap(image.Scale(128, 128, wxIMAGE_QUALITY_BICUBIC));
+			wxSize originalSize = image.GetSize();
+			double scaleX = thumbResolution / originalSize.x;
+			double scaleY = thumbResolution / originalSize.y;
+			double targetScale = std::min(scaleX, scaleY);
+			originalSize.Scale(targetScale, targetScale);
+			originalSize = wxSize(thumbResolution, thumbResolution); // @todo: fix above code to always have 128px at one edge and remove this line
+			wxBitmap bitmap(image.Scale(originalSize.x, originalSize.y, wxIMAGE_QUALITY_BICUBIC));
 			imageList2->Add(bitmap);
 			cont = dir.GetNext(&fileName);
 		}
