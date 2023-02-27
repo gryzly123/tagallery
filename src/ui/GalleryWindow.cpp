@@ -34,7 +34,7 @@ GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 	}
 
 	m_thumbs = new wxListCtrl(hbox, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_ICON);
-	wxImageList* imageList2 = new wxImageList(64, 64);
+	wxImageList* imageList2 = new wxImageList(128, 128);
 	wxString dirPath = wxT("memes");
 	wxDir dir(dirPath);
 	if (dir.IsOpened())
@@ -44,7 +44,7 @@ GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 		while (cont)
 		{
 			wxImage image(dirPath + wxT("/") + fileName);
-			wxBitmap bitmap(image.Scale(64, 64));
+			wxBitmap bitmap(image.Scale(128, 128, wxIMAGE_QUALITY_BICUBIC));
 			imageList2->Add(bitmap);
 			cont = dir.GetNext(&fileName);
 		}
@@ -68,6 +68,10 @@ GalleryWindow::GalleryWindow(wxWindow* parent, wxWindowID id)
 		index++;
 		cont = dir.GetNext(&fileName);
 	}
+
+	m_thumbs->Bind(wxEVT_SIZE, [this](wxSizeEvent& event) {
+		m_thumbs->Arrange(wxLIST_ALIGN_TOP);
+	});
 
 	hbox->SplitVertically(m_tagList, m_thumbs, 200);
 	vbox->Add(hbox, 2, wxEXPAND | wxALL, 5);
