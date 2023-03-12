@@ -1,5 +1,7 @@
-#include "Engine.hpp"
 #include <iostream>
+#include <filesystem>
+
+#include "Engine.hpp"
 #include "Gallery.hpp"
 
 namespace tagallery
@@ -10,7 +12,14 @@ namespace tagallery
 
 	std::weak_ptr<Gallery> Engine::OpenGallery(std::string path)
 	{
-		auto gallery = std::make_shared<Gallery>( path );
+		std::filesystem::path dbPath = std::filesystem::absolute(path);
+		if (!std::filesystem::is_directory(dbPath))
+		{
+			dbPath = dbPath.parent_path();
+		}
+		dbPath /= "tagallery.db";
+
+		auto gallery = std::make_shared<Gallery>( dbPath.string() );
 		m_galleries.push_back(gallery);
 		return gallery;
 	}

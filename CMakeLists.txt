@@ -11,4 +11,8 @@ set( wxBUILD_TESTS "OFF" )
 set( wxBUILD_SAMPLES "OFF" )
 add_subdirectory( contrib/wx )
 
+set( SQLITECPP_BUILD_EXAMPLES OFF )
+set( SQLITECPP_BUILD_TESTS OFF )
+add_subdirectory( contrib/SQLiteCpp )
+
 add_subdirectory( src )
