@@ -22,53 +22,19 @@ namespace tagallery
 
 		uint8_t m_value;
 
-		Access()
+		constexpr Access()
 			: m_value(ReadOnly)
 		{
 		}
-
-		Access(const Access& other)
-			: m_value(other.m_value)
+		
+		constexpr Access(const uint8_t& value)
+			: m_value(value)
 		{
 		}
 
-		bool operator==(const Access& other)
+		constexpr operator uint8_t() const
 		{
-			return m_value == other.m_value;
-		}
-
-		bool operator!=(const Access& other)
-		{
-			return m_value != other.m_value;
-		}
-
-		Access operator|=(const Access& right)
-		{
-			m_value = m_value | right.m_value;
-		}
-
-		Access operator&=(const Access& right)
-		{
-			m_value = m_value & right.m_value;
-		}
-
-		friend Access operator|(const Access& left, const Access& right)
-		{
-			Access a = left;
-			a |= right;
-			return a;
-		}
-
-		friend Access operator&(const Access& left, const Access& right)
-		{
-			Access a = left;
-			a &= right;
-			return a;
-		}
-
-		constexpr operator bool() const
-		{
-			return m_value == ReadOnly;
+			return m_value;
 		}
 	};
 
@@ -80,7 +46,6 @@ namespace tagallery
 	private:
 		const std::string m_typeName;
 		const size_t m_index;
-		
 
 		static std::vector< TagType > s_types;
 	};

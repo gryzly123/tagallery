@@ -2,6 +2,7 @@
 #include "MainFrame.hpp"
 
 #include "../engine/Engine.hpp"
+#include "../engine/Gallery.hpp"
 
 bool TagalleryApp::OnInit()
 {
@@ -14,7 +15,7 @@ bool TagalleryApp::OnInit()
 	wxImage::AddHandler(new wxPNGHandler);
 
 	tagallery::Engine e;
-	e.OpenGallery("memes", true);
+	e.OpenGallery("memes", tagallery::Access::Create | tagallery::Access::MofifyTags | tagallery::Access::MofifyFiles);
 
 
 	MainFrame *frame = new MainFrame("Tagallery", wxPoint(50, 50), wxSize(760, 560));

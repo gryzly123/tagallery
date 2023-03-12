@@ -7,6 +7,7 @@
 namespace tagallery
 {
 	class Gallery;
+	struct Access;
 
 	class Engine
 	{
@@ -15,7 +16,7 @@ namespace tagallery
 		~Engine();
 
 
-		std::weak_ptr< Gallery > OpenGallery( std::string path );
+		std::weak_ptr< Gallery > OpenGallery( std::string path, const Access& access);
 		bool CloseGallery(std::weak_ptr<Gallery> gallery);
 
 	private:

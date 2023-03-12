@@ -10,7 +10,7 @@ namespace tagallery
 	{
 	}
 
-	std::weak_ptr<Gallery> Engine::OpenGallery(std::string path)
+	std::weak_ptr<Gallery> Engine::OpenGallery(std::string path, const Access& access)
 	{
 		std::filesystem::path dbPath = std::filesystem::absolute(path);
 		if (!std::filesystem::is_directory(dbPath))
@@ -19,7 +19,7 @@ namespace tagallery
 		}
 		dbPath /= "tagallery.db";
 
-		auto gallery = std::make_shared<Gallery>( dbPath.string() );
+		auto gallery = std::make_shared<Gallery>( dbPath.string(), access);
 		m_galleries.push_back(gallery);
 		return gallery;
 	}
