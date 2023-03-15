@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <filesystem>
 
 namespace SQLite
 {
@@ -36,6 +37,8 @@ namespace tagallery
 		{
 			return m_value;
 		}
+
+		int ToSqliteFlags() const;
 	};
 
 	class TagType
@@ -77,18 +80,18 @@ namespace tagallery
 	class Gallery
 	{
 	public:
-		
-
 		Gallery(const std::string& path, const Access& accessType);
 		~Gallery();
 
 		bool IsOpened() const { return m_db != nullptr; }
 		const Access& GetAccessType() const { return m_access; }
-		const std::string& GetDbPath() const { return m_path; }
+		const std::filesystem::path& GetDbPath() const { return m_path; }
 
 	private:
+		void BuildDatabase();
+		void PopulateFiles(bool skipExistingCheck = false);
 
-		const std::string m_path;
+		const std::filesystem::path m_path;
 		const Access m_access;
 		std::unique_ptr< SQLite::Database > m_db;
 
