@@ -44,8 +44,10 @@ namespace tagallery
 	class TagType
 	{
 	public:
-		static std::optional< TagType > FindTypeById(const size_t& id);
-		static std::optional< TagType > FindTypeByName(const std::string name);
+		static std::vector< TagType > GetTypes(const Gallery& gallery, std::optional< std::string > filter);
+		static std::optional< TagType > FindTypeById(const Gallery& gallery, const size_t& id);
+		static std::optional< TagType > FindTypeByName(const Gallery& gallery, const std::string name);
+
 	private:
 		const std::string m_typeName;
 		const size_t m_index;
@@ -56,6 +58,9 @@ namespace tagallery
 	class Tag
 	{
 	public:
+		static std::vector< Tag > GetTags(const Gallery& gallery, std::optional< std::string > filter);
+		static std::optional< Tag > FindTagById(const Gallery& gallery, const size_t& id);
+		static std::optional< Tag > FindTagByName(const Gallery& gallery, const std::string name);
 
 	private:
 		const TagType& m_value;
@@ -70,6 +75,8 @@ namespace tagallery
 			Exists,
 			Missing,
 		};
+
+		static std::vector< Item > GetItems(const Gallery& gallery, std::optional< std::string > filter);
 
 	private:
 		const std::string m_path;
@@ -89,13 +96,12 @@ namespace tagallery
 
 	private:
 		void BuildDatabase();
-		void PopulateFiles(bool skipExistingCheck = false);
+		void PopulateDatabase(bool skipExistingCheck = false);
+		void LoadDatabase();
 
 		const std::filesystem::path m_path;
 		const Access m_access;
 		std::unique_ptr< SQLite::Database > m_db;
-
-		std::unordered_map<std::string, Item> m_items;
 	};
 
 }

@@ -45,11 +45,11 @@ namespace tagallery
 			if (m_access & Access::Create && !dbExists)
 			{
 				BuildDatabase();
-				PopulateFiles(true);
+				PopulateDatabase(true);
 			}
 			else if (m_access & Access::MofifyTags)
 			{
-				PopulateFiles(false);
+				PopulateDatabase(false);
 			}
 		}
 		catch (SQLite::Exception& e)
@@ -74,7 +74,7 @@ namespace tagallery
 		m_db->exec(STATEMENT_BUILD_SCHEMA);
 	}
 
-	void Gallery::PopulateFiles(bool skipExistingCheck)
+	void Gallery::PopulateDatabase(bool skipExistingCheck)
 	{
 		auto dir = m_path;
 		auto dbName = dir.filename().string();
@@ -106,5 +106,9 @@ namespace tagallery
 			addFile.bind(2, dates.value().created);
 			addFile.exec();
 		}
+	}
+
+	void Gallery::LoadDatabase()
+	{
 	}
 }

@@ -20,9 +20,13 @@ CREATE TABLE tag (
 );
 
 CREATE TABLE item (
-	id        INTEGER UNIQUE,
-	filename  UNIQUE,
-	dateAdded INTEGER,
+	id            INTEGER UNIQUE,
+	filename      TEXT UNIQUE,
+	sourceUrl     TEXT,
+	description   TEXT,
+	transcription TEXT,
+	dateAdded     INTEGER,
+	dateModified  INTEGER,
 	PRIMARY KEY(id AUTOINCREMENT)
 );
 
@@ -33,15 +37,17 @@ CREATE TABLE binds (
 	FOREIGN KEY(itemId) REFERENCES item(id)
 );
 
-INSERT INTO tagType(name, defaultValue) VALUES (NULL, NULL);
-INSERT INTO tagType(name, defaultValue) VALUES ("dir", NULL);
-INSERT INTO tagType(name, defaultValue) VALUES ("author", 1);
-INSERT INTO tagType(name, defaultValue) VALUES ("rating", 2);
+INSERT INTO tagType(name, defaultValue) VALUES
+	(NULL    , NULL),
+	("dir"   , NULL),
+	("author", 1   ),
+	("rating", 2   );
 
-INSERT INTO tag(name, typeId) VALUES ("unknown", 3);
-INSERT INTO tag(name, typeId) VALUES ("unrated", 4);
-INSERT INTO tag(name, typeId) VALUES ("safe", 4);
-INSERT INTO tag(name, typeId) VALUES ("unsafe", 4);
+INSERT INTO tag(name, typeId) VALUES
+	("unknown", 3),
+	("unrated", 4),
+	("safe"   , 4),
+	("unsafe" , 4);
 )sqlite";
 
 }
