@@ -1,6 +1,6 @@
 #include <windows.h>
 
-#include "Platform.hpp"
+#include "../Platform.hpp"
 
 namespace tagallery
 {

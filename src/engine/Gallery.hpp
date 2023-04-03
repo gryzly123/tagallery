@@ -1,11 +1,11 @@
 #pragma once
 
-#include <memory>
-#include <optional>
-#include <string>
-#include <unordered_map>
-#include <vector>
 #include <filesystem>
+#include <memory>
+#include <string>
+#include <optional>
+
+#include "Access.hpp"
 
 namespace SQLite
 {
@@ -14,74 +14,23 @@ namespace SQLite
 
 namespace tagallery
 {
-	struct Access
-	{
-		constexpr static uint8_t ReadOnly = 0;    // only read and query the database
-		constexpr static uint8_t MofifyTags = 1;  // can edit the database but cannot touch the files. Can react to directory changes
-		constexpr static uint8_t MofifyFiles = 2; // can edit the database and files (rename, delete)
-		constexpr static uint8_t Create = 4;      // can create the database if it doesn't exist
+	constexpr size_t INVALID_REF = std::numeric_limits<size_t>::max();
 
-		uint8_t m_value;
-
-		constexpr Access()
-			: m_value(ReadOnly)
-		{
-		}
-		
-		constexpr Access(const uint8_t& value)
-			: m_value(value)
-		{
-		}
-
-		constexpr operator uint8_t() const
-		{
-			return m_value;
-		}
-
-		int ToSqliteFlags() const;
-	};
-
-	class TagType
+	class NotImplemented : public std::logic_error
 	{
 	public:
-		static std::vector< TagType > GetTypes(const Gallery& gallery, std::optional< std::string > filter);
-		static std::optional< TagType > FindTypeById(const Gallery& gallery, const size_t& id);
-		static std::optional< TagType > FindTypeByName(const Gallery& gallery, const std::string name);
-
-	private:
-		const std::string m_typeName;
-		const size_t m_index;
-
-		static std::vector< TagType > s_types;
-	};
-
-	class Tag
-	{
-	public:
-		static std::vector< Tag > GetTags(const Gallery& gallery, std::optional< std::string > filter);
-		static std::optional< Tag > FindTagById(const Gallery& gallery, const size_t& id);
-		static std::optional< Tag > FindTagByName(const Gallery& gallery, const std::string name);
-
-	private:
-		const TagType& m_value;
-		std::string m_name;
-	};
-
-	class Item
-	{
-	public:
-		enum class Status
+		NotImplemented( const std::string& methodName = "")
+			: std::logic_error("Method " + methodName + " not implemented")
 		{
-			Exists,
-			Missing,
 		};
+	};
 
-		static std::vector< Item > GetItems(const Gallery& gallery, std::optional< std::string > filter);
-
-	private:
-		const std::string m_path;
-		Status m_status;
-		std::vector< Tag > m_tags;
+	class InvalidGalleryRef : public std::logic_error
+	{
+	public:
+		InvalidGalleryRef() : std::logic_error("Gallery reference was not valid")
+		{
+		};
 	};
 
 	class Gallery
