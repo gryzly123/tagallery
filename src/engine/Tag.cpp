@@ -4,25 +4,25 @@
 
 namespace tagallery
 {
-	std::vector<Tag> tagallery::Tag::GetTags(const Gallery& gallery, std::optional<std::string> filter)
+	std::vector<Tag> Tag::GetTags(const Gallery& gallery, std::optional<std::string> filter)
 	{
 		throw NotImplemented("Tag::GetTags");
 		return std::vector<Tag>();
 	}
 
-	std::optional<Tag> tagallery::Tag::FindTagById(const Gallery& gallery, const size_t& id)
+	std::optional<Tag> Tag::FindTagById(const Gallery& gallery, const size_t& id)
 	{
 		throw NotImplemented("Tag::FindTagById");
 		return std::nullopt;
 	}
 
-	std::optional<Tag> tagallery::Tag::FindTagByName(const Gallery& gallery, const std::string& name)
+	std::optional<Tag> Tag::FindTagByName(const Gallery& gallery, const std::string& name)
 	{
 		throw NotImplemented("Tag::FindTagByName");
 		return std::nullopt;
 	}
 
-	std::optional<Tag> tagallery::Tag::AddTag(const Gallery& gallery, const std::string& tagType, const std::string& name)
+	std::optional<Tag> Tag::AddTag(const Gallery& gallery, const std::string& tagType, const std::string& name)
 	{
 		throw NotImplemented("Tag::AddTag");
 		return std::nullopt;
@@ -38,7 +38,7 @@ namespace tagallery
 		}
 	}
 
-	std::string tagallery::Tag::GetName() const
+	std::string Tag::GetName() const
 	{
 		throw NotImplemented("Tag::GetName");
 		return std::string();
@@ -49,7 +49,7 @@ namespace tagallery
 		throw NotImplemented("Tag::SetName");
 	}
 
-	TagType tagallery::Tag::GetTagType() const
+	TagType Tag::GetTagType() const
 	{
 		throw NotImplemented("Tag::GetTagType");
 		return TagType(m_owner, INVALID_REF);
