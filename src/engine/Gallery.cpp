@@ -4,6 +4,7 @@
 
 #include "SQLiteCpp/SQLiteCpp.h"
 
+#include "Item.hpp"
 #include "Gallery.hpp"
 #include "Platform.hpp"
 #include "Statements.hpp"

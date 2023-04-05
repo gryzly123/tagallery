@@ -13,7 +13,7 @@ CREATE TABLE tagType (
 
 CREATE TABLE tag (
 	id      INTEGER UNIQUE,
-	name    TEXT UNIQUE,
+	name    TEXT,
 	typeId  INTEGER,
 	FOREIGN KEY(typeId) REFERENCES tagType(id),
 	PRIMARY KEY(id AUTOINCREMENT)

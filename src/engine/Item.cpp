@@ -1,3 +1,5 @@
+#include "SQLiteCpp/SQLiteCpp.h"
+
 #include "Item.hpp"
 #include "Gallery.hpp"
 #include "Tag.hpp"
@@ -10,7 +12,7 @@ namespace tagallery
 		return std::vector<Item>();
 	}
 
-	Item::Item(const Gallery& owner, const size_t& index)
+	Item::Item(const Gallery& owner, const dbIdx& index)
 		: m_owner(owner)
 		, m_index(index)
 	{
@@ -22,8 +24,20 @@ namespace tagallery
 
 	std::string Item::GetFileName() const
 	{
-		throw NotImplemented("Item::GetFileName");
-		return std::string();
+		std::string result;
+
+		auto* db = m_owner.AccessDb(this);
+		SQLite::Statement exists(*db, "SELECT filename FROM item WHERE id == ?");
+		exists.bind(1, m_index);
+
+		if (exists.executeStep())
+		{
+			const char* r = exists.getColumn(0);
+			result = r;
+			ThrowIfNotDone(exists);
+			return result;
+		}
+		throw InvalidGalleryRef();
 	}
 
 	void Item::SetFileName(const std::string& fileName)
@@ -46,5 +60,10 @@ namespace tagallery
 	void Item::AddTag(const Tag& tag)
 	{
 		throw NotImplemented("Item::AddTag");
+	}
+
+	void Item::RemoveTag(const Tag& tag)
+	{
+		throw NotImplemented("Item::RemoveTag");
 	}
 }

@@ -27,7 +27,7 @@ namespace tagallery
 		return std::nullopt;
 	}
 
-	TagType::TagType(const Gallery& owner, const size_t& index)
+	TagType::TagType(const Gallery& owner, const dbIdx& index)
 		: m_owner(owner)
 		, m_index(index)
 	{

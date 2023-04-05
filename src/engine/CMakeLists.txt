@@ -5,6 +5,8 @@ add_library( tagallery_engine STATIC
     Engine.hpp
     Gallery.cpp
     Gallery.hpp
+    Internals.cpp
+    Internals.hpp
     Item.cpp
     Item.hpp
     Platform.hpp

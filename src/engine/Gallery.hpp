@@ -6,6 +6,7 @@
 #include <optional>
 
 #include "Access.hpp"
+#include "Internals.hpp"
 
 namespace SQLite
 {
@@ -14,24 +15,9 @@ namespace SQLite
 
 namespace tagallery
 {
-	constexpr size_t INVALID_REF = std::numeric_limits<size_t>::max();
-
-	class NotImplemented : public std::logic_error
-	{
-	public:
-		NotImplemented( const std::string& methodName = "")
-			: std::logic_error("Method " + methodName + " not implemented")
-		{
-		};
-	};
-
-	class InvalidGalleryRef : public std::logic_error
-	{
-	public:
-		InvalidGalleryRef() : std::logic_error("Gallery reference was not valid")
-		{
-		};
-	};
+	class Item;
+	class Tag;
+	class TagType;
 
 	class Gallery
 	{
@@ -42,6 +28,23 @@ namespace tagallery
 		bool IsOpened() const { return m_db != nullptr; }
 		const Access& GetAccessType() const { return m_access; }
 		const std::filesystem::path& GetDbPath() const { return m_path; }
+
+		template<typename T>
+		SQLite::Database* AccessDb(const T* obj) const
+		{
+			static_assert(
+				std::is_same<std::remove_pointer_t<T>, tagallery::Item>::value ||
+				std::is_same<std::remove_pointer_t<T>, tagallery::Tag>::value ||
+				std::is_same<std::remove_pointer_t<T>, tagallery::TagType>::value
+			);
+
+			if (obj && obj->OwnedBy(this) && IsOpened())
+			{
+				return m_db.get();
+			}
+			throw InvalidGalleryRef();
+			return nullptr;
+		}
 
 	private:
 		void BuildDatabase();
@@ -54,5 +57,3 @@ namespace tagallery
 	};
 
 }
-
-
