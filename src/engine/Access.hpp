@@ -29,5 +29,8 @@ namespace tagallery
 		}
 
 		int ToSqliteFlags() const;
+
+		bool CanModifyTags() const { return m_value & ModifyTags; }
+		bool CanModifyFiles() const { return m_value & ModifyFiles; }
 	};
 }
