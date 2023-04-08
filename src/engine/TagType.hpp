@@ -13,18 +13,17 @@ namespace tagallery
 	class TagType
 	{
 	public:
-		static std::vector< TagType > GetTypes(const Gallery& gallery, std::optional< std::string > filter);
-		static std::optional< TagType > FindTypeById(const Gallery& gallery, const size_t& id);
-		static std::optional< TagType > FindTypeByName(const Gallery& gallery, const std::string name);
-		static std::optional< TagType > AddTagType(const Gallery& gallery, const std::string typeName);
 		TagType(const Gallery& owner, const dbIdx& index);
 
 		std::string GetName() const;
-		void SetName(const std::string& name);
+		void SetName(const std::string& typeName);
 
 		const dbIdx& GetIndex() const { return m_index; }
 
 		bool OwnedBy(const Gallery* gallery) const { return gallery == &m_owner; }
+
+		static std::string GetClass() { return "TagType"; }
+		static bool ValidateName(const std::string& typeName);
 
 	private:
 		const Gallery& m_owner;

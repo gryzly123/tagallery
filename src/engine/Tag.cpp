@@ -4,25 +4,25 @@
 
 namespace tagallery
 {
-	std::vector<Tag> Tag::GetTags(const Gallery& gallery, std::optional<std::string> filter)
+	std::vector<Tag> Operations::GetTags(std::optional<std::string> filter)
 	{
 		throw NotImplemented("Tag::GetTags");
 		return std::vector<Tag>();
 	}
 
-	std::optional<Tag> Tag::FindTagById(const Gallery& gallery, const size_t& id)
+	std::optional<Tag> Operations::FindTagById(const dbIdx& id)
 	{
 		throw NotImplemented("Tag::FindTagById");
 		return std::nullopt;
 	}
 
-	std::optional<Tag> Tag::FindTagByName(const Gallery& gallery, const std::string& name)
+	std::optional<Tag> Operations::FindTagByName(const std::string& tagName)
 	{
 		throw NotImplemented("Tag::FindTagByName");
 		return std::nullopt;
 	}
 
-	std::optional<Tag> Tag::AddTag(const Gallery& gallery, const std::string& tagType, const std::string& name)
+	std::optional<Tag> Operations::AddTag(const std::string& tagType, const std::string& tagName)
 	{
 		throw NotImplemented("Tag::AddTag");
 		return std::nullopt;

@@ -38,10 +38,29 @@ namespace tagallery
 		};
 	};
 
+	class NotFound : public std::logic_error
+	{
+	public:
+		NotFound()
+			: std::logic_error("Object not found")
+		{
+		};
+	};
+
 	class InvalidGalleryRef : public std::logic_error
 	{
 	public:
-		InvalidGalleryRef() : std::logic_error("Gallery reference was not valid")
+		InvalidGalleryRef()
+			: std::logic_error("Gallery reference is not valid")
+		{
+		};
+	};
+
+	class InvalidName : public std::logic_error
+	{
+	public:
+		InvalidName(const std::string& ref)
+			: std::logic_error("Attempted to use invalid name: " + ref)
 		{
 		};
 	};
@@ -49,7 +68,17 @@ namespace tagallery
 	class MultipleItemsFound : public std::logic_error
 	{
 	public:
-		MultipleItemsFound() : std::logic_error("Query returned more rows than expected - database is not valid.")
+		MultipleItemsFound()
+			: std::logic_error("Query returned more rows than expected - database is not valid")
+		{
+		};
+	};
+
+	class AlreadyExists : public std::logic_error
+	{
+	public:
+		AlreadyExists(const std::string& descriptor)
+			: std::logic_error("Attempted to add " + descriptor + " that already exists")
 		{
 		};
 	};

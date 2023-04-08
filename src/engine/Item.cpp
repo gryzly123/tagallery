@@ -6,10 +6,24 @@
 
 namespace tagallery
 {
-	std::vector<Item> Item::GetItems(const Gallery& gallery, std::optional<std::string> filter)
+	std::vector<Item> Operations::GetItems(std::optional<std::string> filter)
 	{
-		throw NotImplemented("Item::GetItems");
-		return std::vector<Item>();
+		if (filter.has_value())
+		{
+			throw NotImplemented("Item::GetItems with filter");
+		}
+
+		std::vector<Item> result;
+		auto* db = m_owner.AccessDb(this);
+		SQLite::Statement sql(*db, "SELECT id FROM item");
+
+		while (sql.executeStep())
+		{
+			int64_t id = sql.getColumn(0);
+			result.push_back(Item(m_owner, id));
+		}
+
+		return result;
 	}
 
 	Item::Item(const Gallery& owner, const dbIdx& index)
@@ -27,17 +41,18 @@ namespace tagallery
 		std::string result;
 
 		auto* db = m_owner.AccessDb(this);
-		SQLite::Statement exists(*db, "SELECT filename FROM item WHERE id == ?");
-		exists.bind(1, m_index);
+		SQLite::Statement sql(*db, "SELECT filename FROM item WHERE id == ?");
+		sql.bind(1, m_index);
 
-		if (exists.executeStep())
+		if (!sql.executeStep())
 		{
-			const char* r = exists.getColumn(0);
-			result = r;
-			ThrowIfNotDone(exists);
-			return result;
+			//throw NotFound(this);
 		}
-		throw InvalidGalleryRef();
+
+		const char* r = sql.getColumn(0);
+		result = r;
+		ThrowIfNotDone(sql);
+		return result;
 	}
 
 	void Item::SetFileName(const std::string& fileName)
@@ -45,10 +60,16 @@ namespace tagallery
 		throw NotImplemented("Item::SetFileName");
 	}
 
+	std::filesystem::path Item::GetAbsoluteFilePath() const
+	{
+		auto dirPath = m_owner.GetGalleryPath();
+		return dirPath / GetFileName();
+	}
+
 	bool Item::FileExists() const
 	{
-		throw NotImplemented("Item::FileExists");
-		return false;
+		auto path = GetAbsoluteFilePath();
+		return std::filesystem::exists(path);
 	}
 
 	std::vector<Tag> Item::GetTags() const
@@ -60,6 +81,11 @@ namespace tagallery
 	void Item::AddTag(const Tag& tag)
 	{
 		throw NotImplemented("Item::AddTag");
+	}
+
+	bool Item::HasTag(const Tag& tag)
+	{
+		throw NotImplemented("Item::HasTag");
 	}
 
 	void Item::RemoveTag(const Tag& tag)

@@ -52,6 +52,12 @@ namespace tagallery
 		}
 	}
 
+	std::filesystem::path Gallery::GetGalleryPath() const
+	{
+		auto path = m_path;
+		return path.remove_filename();
+	}
+
 	void Gallery::BuildDatabase()
 	{
 		m_db->exec(STATEMENT_BUILD_SCHEMA);
