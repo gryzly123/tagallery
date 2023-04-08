@@ -15,7 +15,7 @@ bool TagalleryApp::OnInit()
 	wxImage::AddHandler(new wxPNGHandler);
 
 	tagallery::Engine e;
-	e.OpenGallery("memes", tagallery::Access::Create | tagallery::Access::MofifyTags | tagallery::Access::MofifyFiles);
+	e.OpenGallery("memes", tagallery::Access::Create | tagallery::Access::ModifyTags | tagallery::Access::ModifyFiles);
 
 
 	MainFrame *frame = new MainFrame("Tagallery", wxPoint(50, 50), wxSize(760, 560));

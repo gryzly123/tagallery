@@ -30,7 +30,7 @@ namespace tagallery
 				BuildDatabase();
 				PopulateDatabase(true);
 			}
-			else if (m_access & Access::MofifyTags)
+			else if (m_access & Access::ModifyTags)
 			{
 				PopulateDatabase(false);
 			}

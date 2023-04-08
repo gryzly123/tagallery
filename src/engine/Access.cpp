@@ -14,7 +14,7 @@ namespace tagallery
 			{
 				flags |= SQLite::OPEN_CREATE;
 			}
-			if (m_value & Access::MofifyTags)
+			if (m_value & Access::ModifyTags)
 			{
 				flags |= SQLite::OPEN_READWRITE;
 			}
