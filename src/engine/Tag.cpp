@@ -46,6 +46,11 @@ namespace tagallery
 
 	void Tag::SetName(const std::string& name)
 	{
+		if (!m_owner.GetAccessType().CanModifyTags())
+		{
+			throw CannotModifyTags();
+		}
+
 		throw NotImplemented("Tag::SetName");
 	}
 
@@ -54,8 +59,19 @@ namespace tagallery
 		throw NotImplemented("Tag::GetTagType");
 		return TagType(m_owner, INVALID_REF);
 	}
+
 	void Tag::SetTagType(const TagType& type) const
 	{
+		if (!m_owner.GetAccessType().CanModifyTags())
+		{
+			throw CannotModifyTags();
+		}
+
 		throw NotImplemented("Tag::SetTagType");
+	}
+
+	size_t Tag::GetNumReferences() const
+	{
+		throw NotImplemented("Tag::GetNumReferences");
 	}
 }

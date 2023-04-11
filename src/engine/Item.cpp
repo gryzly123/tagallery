@@ -57,7 +57,22 @@ namespace tagallery
 
 	void Item::SetFileName(const std::string& fileName)
 	{
+		if (!m_owner.GetAccessType().CanModifyFiles())
+		{
+			throw CannotModifyFiles();
+		}
+
 		throw NotImplemented("Item::SetFileName");
+	}
+
+	void Item::RemoveFile()
+	{
+		if (!m_owner.GetAccessType().CanModifyFiles())
+		{
+			throw CannotModifyFiles();
+		}
+
+		throw NotImplemented("Item::RemoveFile");
 	}
 
 	std::filesystem::path Item::GetAbsoluteFilePath() const
@@ -80,6 +95,11 @@ namespace tagallery
 
 	void Item::AddTag(const Tag& tag)
 	{
+		if (!m_owner.GetAccessType().CanModifyTags())
+		{
+			throw CannotModifyTags();
+		}
+
 		throw NotImplemented("Item::AddTag");
 	}
 
@@ -90,6 +110,11 @@ namespace tagallery
 
 	void Item::RemoveTag(const Tag& tag)
 	{
+		if (!m_owner.GetAccessType().CanModifyTags())
+		{
+			throw CannotModifyTags();
+		}
+
 		throw NotImplemented("Item::RemoveTag");
 	}
 }

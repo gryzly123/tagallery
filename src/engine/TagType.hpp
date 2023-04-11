@@ -20,6 +20,8 @@ namespace tagallery
 
 		const dbIdx& GetIndex() const { return m_index; }
 
+		size_t GetNumReferences() const;
+
 		bool OwnedBy(const Gallery* gallery) const { return gallery == &m_owner; }
 
 		static std::string GetClass() { return "TagType"; }

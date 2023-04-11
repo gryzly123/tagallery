@@ -19,6 +19,7 @@ namespace tagallery
 
 		std::string GetFileName() const;
 		void SetFileName(const std::string& fileName);
+		void RemoveFile();
 
 		std::filesystem::path GetAbsoluteFilePath() const;
 		bool FileExists() const;

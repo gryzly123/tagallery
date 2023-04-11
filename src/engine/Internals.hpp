@@ -83,6 +83,24 @@ namespace tagallery
 		};
 	};
 
+	class CannotModifyTags : public std::logic_error
+	{
+	public:
+		CannotModifyTags()
+			: std::logic_error("Insufficient permissions for operation - modifying database contents is not permitted.")
+		{
+		};
+	};
+
+	class CannotModifyFiles : public std::logic_error
+	{
+	public:
+		CannotModifyFiles()
+			: std::logic_error("Insufficient permissions for operation - modifying files is not permitted.")
+		{
+		};
+	};
+
 	// helper methods
 	void ThrowIfNotDone(SQLite::Statement& s);
 }

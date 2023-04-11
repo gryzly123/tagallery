@@ -102,6 +102,11 @@ namespace tagallery
 
 	void TagType::SetName(const std::string& typeName)
 	{
+		if (!m_owner.GetAccessType().CanModifyTags())
+		{
+			throw CannotModifyTags();
+		}
+
 		if (!ValidateName(typeName))
 		{
 			throw InvalidName(typeName);
@@ -130,8 +135,21 @@ namespace tagallery
 		}
 	}
 
+	size_t TagType::GetNumReferences() const
+	{
+		throw NotImplemented("TagType::GetNumReferences()");
+	}
+
 	bool TagType::ValidateName(const std::string& typeName)
 	{
-		return !(typeName.find(' ') || typeName.find(':'));
+		constexpr char invalidChars[] = {' ', ':', '\'', '\"', '\\', '%'};
+		for (char c : invalidChars)
+		{
+			if (typeName.find(c) != std::string::npos)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }

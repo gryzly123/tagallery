@@ -22,6 +22,8 @@ namespace tagallery
 		TagType GetTagType() const;
 		void SetTagType( const TagType& type ) const;
 
+		size_t GetNumReferences() const;
+
 		const dbIdx& GetIndex() const { return m_index; }
 
 		bool OwnedBy(const Gallery* gallery) const { return gallery == &m_owner; }
