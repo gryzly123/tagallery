@@ -66,16 +66,16 @@ namespace tagallery
 		bool OwnedBy(const Gallery* gallery) const { return gallery == &m_owner; }
 
 		// Item.cpp
-		std::vector< Item > GetItems(std::optional< std::string > filter);
+		std::vector< Item > GetItems(std::optional< std::string > filter = std::nullopt);
 
 		// Tag.cpp
-		std::vector< Tag > GetTags(std::optional< std::string > filter);
+		std::vector< Tag > GetTags(std::optional< std::string > filter = std::nullopt);
 		std::optional< Tag > FindTagById(const dbIdx& id);
 		std::optional< Tag > FindTagByName(const std::string& tagName);
 		std::optional< Tag > AddTag(const std::string& tagType, const std::string& tagName);
 
 		// TagType.cpp
-		std::vector< TagType > GetTypes(std::optional< std::string > filter);
+		std::vector< TagType > GetTypes(std::optional< std::string > filter = std::nullopt);
 		std::optional< TagType > FindTypeById(const dbIdx& id);
 		std::optional< TagType > FindTypeByName(const std::string& typeName);
 		std::optional< TagType > AddTagType(const std::string& typeName);
