@@ -10,8 +10,8 @@ namespace tagallery
 		std::vector<TagType> result;
 		auto* db = m_owner.AccessDb(this);
 
-		SQLite::Statement sql(*db, "SELECT id FROM tagType WHERE name LIKE ?%");
-		sql.bind(1, filter.value_or(""));
+		SQLite::Statement sql(*db, "SELECT id FROM tagType WHERE name LIKE ?");
+		sql.bind(1, filter.value_or("") + "%");
 
 		while (sql.executeStep())
 		{
